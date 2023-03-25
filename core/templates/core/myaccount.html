@@ -1,0 +1,54 @@
+{% extends 'core/base.html' %}
+{% block title %}
+    My account
+{% endblock %}
+{% block content %}
+    <div class="max-w-6xl mx-auto p-6">
+        <h1 class="mb-5 text-3xl" >
+            Мой Аккаунт</h1>
+
+        <div class="mb-6">
+            <strong>Имя:</strong> {{ request.user.get_full_name }}<br>
+            <strong>Username:</strong> {{ request.user.username }} <br>
+            <strong>Email:</strong> {{ request.user.email }} <br>
+            <a href="{% url 'edit_acc' %}" class="inline-block py-4 px-6 rounded-xl text-white bg-purple-500 hover:bg-purple-700">Изменит</a>
+           
+        </div>
+        
+        <hr>
+        <h2 class="my-6 text-xl">Мои заказы</h2>
+        {% for order in request.user.orders.all %}
+        <div class="w-full mb-6 p-6 flex flex-wrap bg-gray-100 rounded-xl">
+            <div class="mb-6 flex justify-between">
+                <a href="">Order id: 1</a>
+            </div>
+
+            <div class="mb-6 w-full">
+                {% for item in order.items.all %}
+                    <div class="product mb-6 flex pr-6">
+                        <a href="" class="w-1/4">
+                            <img src="{{ item.product.get_thumbnail }}" class="hover:shadow-lg rounded-xl " alt="">
+                        </a>
+
+                        <div class="w-3/4 pl-6">
+                            <div class="flex justify-between">
+                                <a href="" class="text-lg">{{item.product.name}}</a>
+                                <p class="mb-6 pt-1 text-gray-400">{{item.product.price}} BYN</p>
+                            </div>
+                            <hr>
+                            <div class="mt-6">
+                                Quantity:{{ item.quantity}}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div>
+                <p class="text-lg">Date: {{ order.created_at }}</p>
+                <span class="font-semibold">Обшая</span>
+                <span>{{ cart.get_total_cost }} BYN</span>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}

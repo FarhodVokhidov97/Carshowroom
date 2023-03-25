@@ -1,0 +1,35 @@
+{% extends 'core/base.html' %}
+{% block title %}
+    Shop
+{% endblock %}
+{% block content %}  
+{{category.name}}
+<div class="max-w-2xl mx-auto p-6">
+<form method="POST" enctype='multipart/form-data' class="space-y-3">
+    {%csrf_token%}
+    <div>
+        <label for="">Code</label>
+        <input name="code" value="{{serv.code}}"  type="number"  class="w-full mt-2 py-4 px-6 bg-gray-100 rounded-xl">
+    </div>
+    <div>
+        <label for="">name</label>
+        <input name="name"  type="text" value="{{serv.name}}"  class="w-full mt-2 py-4 px-6 bg-gray-100 rounded-xl">
+    </div>
+    <div>
+        <label for="">Sedanprice</label>
+        <input name="price1"  type="number" value="{{serv.sedanPrice}}"  class="w-full mt-2 py-4 px-6 bg-gray-100 rounded-xl">
+    </div>
+    <div>
+        <label for="">UniversalPrice</label>
+        <input name="price2"  type="number" value="{{serv.UniversalPrice}}"  class="w-full mt-2 py-4 px-6 bg-gray-100 rounded-xl">
+    </div>
+    <div>
+        <label for="">PekapPrice</label>
+        <input name="price3"  type="number" value="{{serv.PekapPrice}}"  class="w-full mt-2 py-4 px-6 bg-gray-100 rounded-xl">
+    </div>
+    
+    <button class="py-4 px-6 rounded-xl text-white bg-purple-500 hover:bg-purple-700">Save</button>
+    
+</form>
+</div>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends 'core/base.html' %}
+{% block title %}
+Servises
+{% endblock %}
+{% block content %}
+<div class="max-w-6xl mx-auto flex flex-wrap items-start py-2 py-6 px-6 xl:px-0">
+    <div class="fillters w-full lg:w-1/4">
+        <form method="get" action=".">
+            <div class="flex">
+                <input type="text" name="query" class="p-4 bg-gray-100 border-0" placeholder="Поиск...">
+                <button class="p-4 bg-gray-100 border-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                      </svg>
+                </button>
+            </div>
+        </form>
+        <button class="filters flex text-center bg-gray-200 p-2 m-1 rounded-lg"><a class="filter_by" href="?sort=l2h">Сортировка по возрастанию
+          
+          </a></button>
+        <button class="filters flex bg-gray-200 p-2 m-1 rounded-lg"><a class="filter_by" href="?sort=h2l">Сортировка по убыванию
+          
+          </a></button>
+        
+        {% if request.user.is_staff %}
+        <a class="bg-gray-500 mt-10 rounded-xl flex w-1/2 text-white py-2 px-2" href="{% url 'addCat' %}">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  Добавить запчасти
+        </a>
+        {% endif %}
+        <ul class="space-y-2 mb-3">
+            <li><a href="{% url 'spare' %}" class="{% if not active_category %} text-purple-500{% else %} text-gray-500{%endif%}">Все запчасти </a></li>
+            {% for spar in spare %}
+            
+                <li class="flex justify-between"><img class="w-10 rounded-lg" src="{{spar.image.url}}" alt=""><a href="{% url 'sparecat' %}?category={{spar.slug}}" class="{% if spar.slug == active_category %} text-green-500{% else %} text-gray-500{%endif%}">{{spar.name}}</a> 
+                    {% if request.user.is_staff %}
+                    <div class="flex">
+                        <a href="#" class="bg-green-400 rounded-xl ml-2 p-1 text-white">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                                <path d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32l8.4-8.4z" />
+                                <path d="M5.25 5.25a3 3 0 00-3 3v10.5a3 3 0 003 3h10.5a3 3 0 003-3V13.5a.75.75 0 00-1.5 0v5.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5V8.25a1.5 1.5 0 011.5-1.5h5.25a.75.75 0 000-1.5H5.25z" />
+                              </svg>
+                        </a>
+                        <a href="#" class="bg-red-400 pl-1 rounded-xl p-1 text-white">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                                <path fill-rule="evenodd" d="M16.5 4.478v.227a48.816 48.816 0 013.878.512.75.75 0 11-.256 1.478l-.209-.035-1.005 13.07a3 3 0 01-2.991 2.77H8.084a3 3 0 01-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 01-.256-1.478A48.567 48.567 0 017.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 013.369 0c1.603.051 2.815 1.387 2.815 2.951zm-6.136-1.452a51.196 51.196 0 013.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 00-6 0v-.113c0-.794.609-1.428 1.364-1.452zm-.355 5.945a.75.75 0 10-1.5.058l.347 9a.75.75 0 101.499-.058l-.346-9zm5.48.058a.75.75 0 10-1.498-.058l-.347 9a.75.75 0 001.5.058l.345-9z" clip-rule="evenodd" />
+                              </svg>
+                              
+                        </a>
+                    </div>
+                    {% endif %}
+                    </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="products w-full lg:w-3/4 -mt-4 flex items-center flex-wrap">
+        {% for product in products %}
+            {% include 'product/partials/spars_list.html' %}
+        {% endfor %}
+        
+        
+    </div>
+</div>
+{% endblock %}

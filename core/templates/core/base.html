@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <title>{% block title %}{% endblock %} | Electronik Homes</title>
+</head>
+<body>
+    <nav class="border-b bg-black-700 border-black-300">
+        <div class="max-w-6xl mx-auto p-10 PY-2 px-6 xl:px-0 flex items-center justify-between">
+            <div class="menu-left flex items-center space-x-6">
+                <img src="https://t4.ftcdn.net/jpg/05/20/64/87/360_F_520648703_8FbStHNvE9pi9SD1qGqacWmQplqjlrPs.jpg" class="h-10 mr-3" alt="Flowbite Logo" />
+                <a href="{% url 'frontpage' %}" class="py-4 text-lg text-green-500 font-semibold">Cars SHowroom</a>
+                <ul class="flex items-center space-x-4">
+                    <li><a href="{% url 'shop' %}">Все автомобили</a></li>
+                    <li><a href="{% url 'serv' %}">Услуги</a></li>
+
+                    
+                </ul>
+            </div>
+            <div class="menu-right flex items-center space-x-4">
+                {% if request.user.is_authenticated %}
+                    <a class="bg-red-100 rounded-xl py-2 px-2" href="{% url 'logout' %}">Выйти</a>
+                {% endif %}
+                {% if request.user.is_staff %}
+                    <a class="bg-green-200 rounded-xl py-2 px-2" href="{% url 'addpro' %}">Добавить машину </a>
+                {% endif %}
+                <a href="{% url 'myaccount' %}">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                      </svg>                      
+                </a>
+                <div 
+                hx-get="{% url 'hx_menu_cart' %}"
+                hs-triger = "update-menu-cart from:body"
+                hx-swap="innerHTML"
+                >
+                {% include 'cart/menu_cart.html' %}
+                </div>
+                
+            </div>
+        </div>
+    </nav>
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+    
+<footer class="p-4 bg-white rounded-lg shadow md:px-6 md:py-8 dark:bg-gray-900  mt--1 w-full ">
+    <div class="sm:flex sm:items-center sm:justify-between">
+        <a href="https://flowbite.com/" class="flex items-center mb-4 sm:mb-0">
+            <img src="https://t4.ftcdn.net/jpg/05/20/64/87/360_F_520648703_8FbStHNvE9pi9SD1qGqacWmQplqjlrPs.jpg" class="h-10 mr-3" alt="Flowbite Logo" />
+            <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Car SHowroom</span>
+        </a>
+        <ul class="flex flex-wrap items-center mb-6 text-sm text-gray-500 sm:mb-0 dark:text-gray-400">
+            <li>
+                <a href="#" class="mr-4 hover:underline md:mr-6 ">About</a>
+            </li>
+            <li>
+                <a href="#" class="mr-4 hover:underline md:mr-6">Privacy Policy</a>
+            </li>
+            <li>
+                <a href="#" class="mr-4 hover:underline md:mr-6 ">Licensing</a>
+            </li>
+            <li>
+                <a href="#" class="hover:underline">Contact</a>
+            </li>
+        </ul>
+    </div>
+    <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
+    <span class="block text-sm text-gray-500 sm:text-center dark:text-gray-400">© 3 <a href="https://flowbite.com/" class="hover:underline">Flowbite™</a>. All Rights Reserved.
+    </span>
+</footer>
+
+
+    <script src="https://unpkg.com/htmx.org@1.8.4"></script>
+</body>
+</html>
